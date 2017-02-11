@@ -2,13 +2,13 @@
 
 A lightweight, syntax hilight UNI code editor.
 
-# Why it is here
---------------------------------------------------------------------------------
+## Why it is here
+
 TCodeEdit was created in Jan 26th, 2017. I write tis component is to get a small
 and eay-to-use code editor which can work in the latest Lazarus/Delphi XE without
 changing a letter.
 
-# Develping status
+## Develping status
 
 TCodeEdit is in development and lack of some helpful functions:
 
@@ -18,15 +18,15 @@ TCodeEdit is in development and lack of some helpful functions:
   - code auto-complete.
   - ......
 
-# License
+## License
 
 TCodeEdit was release under the MIT license. Just use it as you will.
 
-# Version
+## Version
 
 Current version is 0.6.0. I hope it grow up to 1.0 in the next few months.
 
-# How to use it.
+## How to use it.
 
  1. download to your harddisk and add codeedit.pas and codesyns.pas to your project.
  2. use codeedit.pas in your form unit and declare class field to hold TCodeEdit.
