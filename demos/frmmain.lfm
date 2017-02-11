@@ -1,0 +1,152 @@
+object MainForm: TMainForm
+  Left = 259
+  Height = 500
+  Top = 139
+  Width = 800
+  Caption = 'Sample Code Editor'
+  ClientHeight = 480
+  ClientWidth = 800
+  Menu = MainMenu
+  OnCreate = FormCreate
+  Position = poDesktopCenter
+  LCLVersion = '1.6.2.0'
+  object EditPanel: TPanel
+    Left = 0
+    Height = 458
+    Top = 0
+    Width = 800
+    Align = alClient
+    BevelOuter = bvNone
+    BorderStyle = bsSingle
+    TabOrder = 0
+  end
+  object StatusBar: TStatusBar
+    Left = 0
+    Height = 22
+    Top = 458
+    Width = 800
+    Panels = <    
+      item
+        Alignment = taCenter
+        Width = 100
+      end    
+      item
+        Alignment = taCenter
+        Width = 100
+      end    
+      item
+        Alignment = taCenter
+        Width = 100
+      end    
+      item
+        Width = 50
+      end>
+    SimplePanel = False
+  end
+  object MainMenu: TMainMenu
+    left = 64
+    top = 89
+    object FileMenu: TMenuItem
+      Caption = '&File'
+      object FileNewMenu: TMenuItem
+        Caption = '&New'
+        ShortCut = 16462
+        OnClick = FileNewMenuClick
+      end
+      object FileOpenMenu: TMenuItem
+        Caption = '&Open ...'
+        ShortCut = 16463
+        OnClick = FileOpenMenuClick
+      end
+      object FileSaveMenu: TMenuItem
+        Caption = '&Save ...'
+        ShortCut = 16467
+        OnClick = FileSaveMenuClick
+      end
+      object MenuItem1: TMenuItem
+        Caption = '-'
+      end
+      object FileExitMenu: TMenuItem
+        Caption = '&Exit'
+        ShortCut = 32856
+        OnClick = FileExitMenuClick
+      end
+    end
+    object EditMenu: TMenuItem
+      Caption = '&Edit'
+      OnClick = EditMenuClick
+      object EditUndoMenu: TMenuItem
+        Caption = '&Undo'
+        ShortCut = 16474
+        OnClick = EditUndoMenuClick
+      end
+      object EditRedoMenu: TMenuItem
+        Caption = '&Redo'
+        ShortCut = 24666
+        OnClick = EditRedoMenuClick
+      end
+      object MenuItem3: TMenuItem
+        Caption = '-'
+      end
+      object EditCutMenu: TMenuItem
+        Caption = 'Cu&t'
+        ShortCut = 16472
+        OnClick = EditCutMenuClick
+      end
+      object EditCopyMenu: TMenuItem
+        Caption = '&Copy'
+        ShortCut = 16451
+        OnClick = EditCopyMenuClick
+      end
+      object EditPasteMenu: TMenuItem
+        Caption = '&Paste'
+        ShortCut = 16470
+        OnClick = EditPasteMenuClick
+      end
+      object MenuItem2: TMenuItem
+        Caption = '-'
+      end
+      object EditSelectAllMenu: TMenuItem
+        Caption = '&Select All'
+        ShortCut = 16449
+        OnClick = EditSelectAllMenuClick
+      end
+    end
+    object SearchMenu: TMenuItem
+      Caption = '&Search'
+      object SearchFindMenu: TMenuItem
+        Caption = '&Find ...'
+        ShortCut = 16454
+        OnClick = SearchFindMenuClick
+      end
+      object SearchReplaceMenu: TMenuItem
+        Caption = '&Replace ...'
+        ShortCut = 16466
+        OnClick = SearchReplaceMenuClick
+      end
+    end
+  end
+  object OpenDialog: TOpenDialog
+    Filter = 'Any Files(*.*)|*.*'
+    left = 144
+    top = 89
+  end
+  object SaveDialog: TSaveDialog
+    Filter = 'Any Files(*.*)|*.*'
+    left = 216
+    top = 89
+  end
+  object FindDialog: TFindDialog
+    Options = [frDown, frHideMatchCase, frHideWholeWord, frHideUpDown, frDisableMatchCase, frDisableUpDown, frDisableWholeWord, frHideEntireScope, frButtonsAtBottom]
+    OnFind = FindDialogFind
+    left = 296
+    top = 89
+  end
+  object ReplaceDialog: TReplaceDialog
+    Options = [frDown, frHideMatchCase, frHideWholeWord, frHideUpDown, frMatchCase, frDisableMatchCase, frDisableUpDown, frDisableWholeWord, frHideEntireScope, frHidePromptOnReplace]
+    OnFind = ReplaceDialogFind
+    OnReplace = ReplaceDialogReplace
+    left = 368
+    top = 89
+  end
+end
