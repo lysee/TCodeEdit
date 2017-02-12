@@ -1,0 +1,7 @@
+folder:	        demo: Sample TCodeEdit applications
+folder:     resource: Pictures and other resources used for Readme.md and Wikis.
+folder:       source: source codes
+  file:    files.txt: current this file
+  file:      LICENSE: MIT license file
+  file:  LICENSE.txt: MIT license file
+  file:    README.md: TCodeEdit's markdown readme file

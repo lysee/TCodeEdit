@@ -138,6 +138,7 @@ type
     FVisibleLines: integer;
     FLine80Pos: integer;
     FWheelTime: TDateTime;
+    FAutoFileSyntax: boolean;
     FOnStatus: TNotifyEvent;
     procedure SetPalette(Value: TPalette);
     procedure SetTabSize(Value: integer);
@@ -218,6 +219,7 @@ type
     property TabSize: integer read FTabSize write SetTabSize;
     property Readonly: boolean read FReadonly write SetReadonly;
     property Modified: boolean read FModified write SetModified;
+    property AutoFileSyntax: boolean read FAutoFileSyntax write FAutoFileSyntax;
     property OnStatus: TNotifyEvent read FOnStatus write FOnStatus;
   end;
 
@@ -1203,6 +1205,7 @@ begin
   Cursor := crIBeam;
   DoubleBuffered := true;
   FTabSize := CE_DEFTABSIZE;
+  FAutoFileSyntax := true;
   FWheelTime := Now;
   Font.Name := CE_FONTNAME;
   Font.Size := CE_FONTSIZE;
@@ -1310,7 +1313,7 @@ begin
   else PaintVisibleLines(has_need_paint, true);
 end;
 
-procedure TCodeEdit.PaintVisibleLines(OnlyNeeded, DoPaint: boolean);
+procedure TCodeEdit.PaintVisibleLines(OnlyNeeded: boolean; DoPaint: boolean);
 var
   I, X, Y: integer;
   L: TLine;
@@ -4019,8 +4022,9 @@ begin
     L.LoadFromFile(FileName);
     LoadFromStrings(L);
     X := ExtractFileExt(FileName);
-    if not FEdit.Syntax.Support(X) then
-      FEdit.Syntax.SyntaxClass := FindSyntaxByFileExt(X);
+    if FEdit.FAutoFileSyntax then
+      if not FEdit.Syntax.Support(X) then
+        FEdit.Syntax.SyntaxClass := FindSyntaxByFileExt(X);
   finally
     L.Free;
   end;
