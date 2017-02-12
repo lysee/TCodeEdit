@@ -73,6 +73,7 @@ implementation
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FEdit := PlaceACodeEdit(EditPanel);
+//FEdit.AutoFileSyntax := false;
   FEdit.OnStatus := @EditStatus;
 end;
 
