@@ -35,9 +35,9 @@ Maybe has just completed 60%, so current version is 0.6.0.<br>
 ### How to use it.
 
 1. Get TCodeEdit and add it to your Lazarus/Delphi project.<br>
-   下载TCodeEdit后加入你的开发项目。<br>
+   下载TCodeEdit后加入你的开发项目。<br>
 2. Use codeedit.pas in your form unit and declare class field to hold TCodeEdit<br>
-   将codeedit.pas加入需要使用TCodeEdit的窗口单元并声明类成员变量。<br>
+   将codeedit.pas加入需要使用TCodeEdit的窗口单元并声明类成员变量。<br>
 
    ```Pascal
    uses codeedit;
@@ -51,7 +51,7 @@ Maybe has just completed 60%, so current version is 0.6.0.<br>
    ```
 
 3. Palce a TCodeEdit at where you want by calling PlaceACodeEdit().<br>
-   调用PlaceACode函数把TCodeEdit放置到需要的位置。<br>
+   调用PlaceACodeEdit函数把TCodeEdit放置到需要的位置。<br>
 
    ```Pascal
    procedure TMainForm.FormCreate(Sender: TObject);
@@ -62,7 +62,7 @@ Maybe has just completed 60%, so current version is 0.6.0.<br>
    ```
 
 4. Reponds OnStatus event to display editor status and enable/disable menu or buttons.<br>
-   响应OnStatus事件显示编辑器状态，修改相关菜单、按钮灯组件的属性。<br>
+   响应OnStatus事件显示编辑器状态，修改相关菜单、按钮等组件的属性。<br>
 
    ```Pascal
    procedure TMainForm.EditStatus(Sender: TObject);
@@ -81,7 +81,7 @@ Maybe has just completed 60%, so current version is 0.6.0.<br>
    ```
 
 5. How to open a file.<br>
-   如何打开文件。<br>
+   如何打开文件。<br>
 
    ```Pascal
    procedure TMainForm.FileOpenMenuClick(Sender: TObject);
@@ -96,7 +96,7 @@ Maybe has just completed 60%, so current version is 0.6.0.<br>
    打开文件后，TCodeEdit根据文件后缀自动选择匹配的语法加亮类。
 
 6. How to use syntax class manually.<br>
-   如何手动设置语法加亮类。<br>
+   如何手动设置语法加亮类。<br>
    
    ```Pascal
    FEdit.Syntax.SyntaxClass := TPascalSyntax;
