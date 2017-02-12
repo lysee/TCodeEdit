@@ -9,7 +9,7 @@ object MainForm: TMainForm
   Menu = MainMenu
   OnCreate = FormCreate
   Position = poDesktopCenter
-  LCLVersion = '1.6.2.0'
+  LCLVersion = '1.6.0.4'
   object EditPanel: TPanel
     Left = 0
     Height = 458

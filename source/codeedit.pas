@@ -4,6 +4,7 @@
  Implements the liteweight and syntax hilighted UNICODE editor: TCodeEdit.
  Create by Li Yunjie<718956073@qq.com> on Jan 26th, 2017.
  Last modified on Feb 11th, 2017.
+ Hosted at https://github.com/lysee/TCodeEdit.git.
  Released on Feb 11th, 2017 under the MIT license:
  =================================================
  Copyright (c) 2017 Li Yunjie<718956073@qq.com>.

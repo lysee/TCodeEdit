@@ -5,7 +5,7 @@ unit frmMain;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, SynEdit, Forms, Controls, Graphics, Dialogs,
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   Menus, ExtCtrls, ComCtrls, Clipbrd, codeedit;
 
 type
