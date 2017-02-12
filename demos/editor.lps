@@ -9,7 +9,7 @@
         <Filename Value="editor.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="43"/>
+        <UsageCount Value="44"/>
       </Unit0>
       <Unit1>
         <Filename Value="frmmain.pas"/>
@@ -18,9 +18,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="frmMain"/>
-        <TopLine Value="44"/>
-        <CursorPos X="55" Y="44"/>
-        <UsageCount Value="43"/>
+        <CursorPos X="32" Y="8"/>
+        <UsageCount Value="44"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -29,18 +28,17 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="3827"/>
-        <CursorPos Y="3839"/>
-        <UsageCount Value="43"/>
+        <TopLine Value="34"/>
+        <CursorPos X="25" Y="45"/>
+        <UsageCount Value="44"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="..\source\codesyns.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="19"/>
-        <CursorPos X="45" Y="8"/>
-        <UsageCount Value="43"/>
+        <CursorPos Y="8"/>
+        <UsageCount Value="44"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -164,123 +162,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="3504" TopLine="3490"/>
+        <Caret Line="1305" TopLine="1293"/>
       </Position1>
       <Position2>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="3506" TopLine="3490"/>
+        <Caret Line="1176" TopLine="1163"/>
       </Position2>
       <Position3>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="3507" TopLine="3490"/>
+        <Caret Line="1321" TopLine="1308"/>
       </Position3>
       <Position4>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="3508" TopLine="3490"/>
+        <Caret Line="3516" Column="34" TopLine="3504"/>
       </Position4>
       <Position5>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="3509" TopLine="3496"/>
+        <Caret Line="1308" TopLine="1294"/>
       </Position5>
       <Position6>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="3506" TopLine="3496"/>
+        <Caret Line="1309" Column="18" TopLine="1294"/>
       </Position6>
       <Position7>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1305" TopLine="1293"/>
+        <Caret Line="1176" TopLine="1163"/>
       </Position7>
       <Position8>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1176" TopLine="1163"/>
+        <Caret Line="1321" Column="20" TopLine="1310"/>
       </Position8>
       <Position9>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1321" TopLine="1308"/>
+        <Caret Line="1336" Column="21" TopLine="1322"/>
       </Position9>
       <Position10>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="3516" Column="34" TopLine="3504"/>
+        <Caret Line="1321" TopLine="1319"/>
       </Position10>
       <Position11>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1308" TopLine="1294"/>
+        <Caret Line="1176" TopLine="1157"/>
       </Position11>
       <Position12>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1309" Column="18" TopLine="1294"/>
+        <Caret Line="1323" TopLine="1314"/>
       </Position12>
       <Position13>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1176" TopLine="1163"/>
+        <Caret Line="1330" TopLine="1314"/>
       </Position13>
       <Position14>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1321" Column="20" TopLine="1310"/>
+        <Caret Line="1323" TopLine="1314"/>
       </Position14>
       <Position15>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1336" Column="21" TopLine="1322"/>
+        <Caret Line="1324" TopLine="1314"/>
       </Position15>
       <Position16>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1321" TopLine="1319"/>
+        <Caret Line="1326" TopLine="1314"/>
       </Position16>
       <Position17>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1176" TopLine="1157"/>
+        <Caret Line="1327" TopLine="1314"/>
       </Position17>
       <Position18>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1323" TopLine="1314"/>
+        <Caret Line="1323" Column="8" TopLine="1314"/>
       </Position18>
       <Position19>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1330" TopLine="1314"/>
+        <Caret Line="490" TopLine="478"/>
       </Position19>
       <Position20>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1323" TopLine="1314"/>
+        <Caret Line="1328" Column="3" TopLine="1316"/>
       </Position20>
       <Position21>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1324" TopLine="1314"/>
+        <Caret Line="1523" Column="37" TopLine="1510"/>
       </Position21>
       <Position22>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1326" TopLine="1314"/>
+        <Caret Line="1643" Column="37" TopLine="1630"/>
       </Position22>
       <Position23>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1327" TopLine="1314"/>
+        <Caret Line="2867" TopLine="2853"/>
       </Position23>
       <Position24>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1323" Column="8" TopLine="1314"/>
+        <Caret Line="2866" Column="13" TopLine="2853"/>
       </Position24>
       <Position25>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="490" TopLine="478"/>
+        <Caret Line="3839" TopLine="3827"/>
       </Position25>
       <Position26>
-        <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1328" Column="3" TopLine="1316"/>
+        <Filename Value="frmmain.pas"/>
+        <Caret Line="44" Column="55" TopLine="44"/>
       </Position26>
       <Position27>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1523" Column="37" TopLine="1510"/>
+        <Caret Line="7"/>
       </Position27>
       <Position28>
-        <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="1643" Column="37" TopLine="1630"/>
+        <Filename Value="frmmain.pas"/>
+        <Caret Line="95" Column="32" TopLine="91"/>
       </Position28>
       <Position29>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="2867" TopLine="2853"/>
+        <Caret Line="41" TopLine="30"/>
       </Position29>
       <Position30>
         <Filename Value="..\source\codeedit.pas"/>
-        <Caret Line="2866" Column="13" TopLine="2853"/>
+        <Caret Line="748" Column="94" TopLine="744"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
