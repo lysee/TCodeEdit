@@ -1,7 +1,9 @@
-## TCodeEdit
+﻿## TCodeEdit
 
 A lightweight and syntax hilighted UNICODE editor.<br>
 一个小巧、语法加亮、使用UNICODE编码的代码编辑器。<br>
+
+![](https://github.com/lysee/Lires/raw/master/codeedit/in_fedora2.png)
 
 ### Why it is here
 
