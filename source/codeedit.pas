@@ -3,7 +3,7 @@
  ============
  Implements the liteweight and syntax hilighted UNICODE editor: TCodeEdit.
  Create by Li Yunjie<718956073@qq.com> on Jan 26th, 2017.
- Last modified on Feb 11th, 2017.
+ Last modified on Feb 12th, 2017.
  Hosted at https://github.com/lysee/TCodeEdit.git.
  Released on Feb 11th, 2017 under the MIT license:
  =================================================
@@ -42,6 +42,7 @@ uses
 
 const
 
+  CE_VERSION    = '0.6.0';
   CE_FONTNAME   = 'Courier New';
   CE_FONTSIZE   = 10;
   CE_MINTABSIZE = 2;
