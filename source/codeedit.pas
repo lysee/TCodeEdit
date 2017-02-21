@@ -111,6 +111,7 @@ type
   TChangeType   = (ctChangeText, ctDeleteLine, ctAddLine);
   TChangeDeal   = (cdNone, cdUndo, cdRedo);
   TToken        = smallint;
+  TLineMark     = (lmNone, lm0, lm1, lm2, lm3, lm4, lm5, lm6, lm7, lm8, lm9);
 
   { TCodeEdit }
 
@@ -176,6 +177,8 @@ type
     procedure PressBackSpace(Shift: TShiftState);
     procedure PressInsert(Shift: TShiftState);
     procedure PressDelete(Shift: TShiftState);
+    procedure PressSetLineMark(AMark: TLineMark);
+    procedure PressGoto(AMark: TLineMark);
     procedure PressDeleteLine;
     procedure PressSelectAll;
     procedure PressCopyToClipboard;
@@ -415,6 +418,7 @@ type
     FChanged: boolean;
     FNeedPaint: boolean;
     FLastToken: TToken;
+    FLineMark: TLineMark;
     function GetLeft: integer;
     function GetTop: integer;
     function GetHeight: integer;
@@ -423,6 +427,7 @@ type
     function GetPriorToken: TToken;
     procedure UseSelected(Token: TToken = TK_SPACE);
     procedure UseNormal(Token: TToken = TK_SPACE);
+    procedure SetLineMark(AValue: TLineMark);
   protected
     procedure Paint(DoPaint: boolean = false);
     function TextWidth(const S: TCodeString): integer;
@@ -464,6 +469,7 @@ type
     property Changed: boolean read FChanged write SetChanged;
     property PriorToken: TToken read GetPriorToken;
     property LastToken: TToken read FLastToken;
+    property LineMark: TLineMark read FLineMark write SetLineMark;
   end;
 
   { TLineList }
@@ -511,6 +517,7 @@ type
     function Height: integer;
     function FirstChanged: integer;
     function Pack: integer;
+    function FindByMark(AMark: TLineMark): TLine;
     property Count: integer read GetCount;
     property Items[Index: integer]: TLine read GetItem;default;
     property Text: TCodeString read GetText write SetText;
@@ -571,10 +578,12 @@ type
     FBackground: TColor;
     FSelectedTextColor: TColor;
     FSelectedBackground: TColor;
+    FLeftBarBackground: TColor;
     FChangedBackground: TColor;
     FActiveBackground: TColor;
     FCaretColor: TColor;
     FLine80Color: TColor;
+    FLineMarkBackground: TColor;
     { token color }
     FUnknownColor: TColor;
     FKeywordColor: TColor;
@@ -619,10 +628,12 @@ type
     property Background: TColor read FBackground write FBackground;
     property SelectedTextColor: TColor read FSelectedTextColor write FSelectedTextColor;
     property SelectedBackground: TColor read FSelectedBackground write FSelectedBackground;
+    property LeftBarBackground: TColor read FLeftBarBackground write FLeftBarBackground;
     property ChangedBackground: TColor read FChangedBackground write FChangedBackground;
     property ActiveBackground: TColor read FActiveBackground write FActiveBackground;
     property CaretColor: TColor read FCaretColor write FCaretColor;
     property Line80Color: TColor read FLine80Color write FLine80Color;
+    property LineMarkBackground: TColor read FLineMarkBackground write FLineMarkBackground;
     { token color }
     property UnknownColor: TColor read FUnknownColor write FUnknownColor;
     property KeywordColor: TColor read FKeywordColor write FKeywordColor;
@@ -1475,6 +1486,31 @@ begin
   end;
 end;
 
+procedure TCodeEdit.PressSetLineMark(AMark: TLineMark);
+var
+  L: TLine;
+begin
+  if FCaret.Active then
+  begin
+    L := FCaret.Line;
+    if L.FLineMark = AMark then
+      L.SetLineMark(lmNone) else
+      L.SetLineMark(AMark);
+  end;
+end;
+
+procedure TCodeEdit.PressGoto(AMark: TLineMark);
+var
+  L: TLine;
+begin
+  L := FLines.FindByMark(AMark);
+  if (L <> nil) and (L <> FCaret.Line) then
+  begin
+    FCaret.MoveToHead(L);
+    FCaret.MakeVisible;
+  end;
+end;
+
 procedure TCodeEdit.PressDeleteLine;
 var
   L: TLine;
@@ -1514,6 +1550,7 @@ procedure TCodeEdit.KeyDown(var Key: Word; Shift: TShiftState);
   end;
 
 begin
+  TForm(Parent.Parent).Caption := IntToStr(Key);
   EnsureNotEmpty;
   FCaret.FKeyDown := true;
   FSelection.FSelecting := false;
@@ -1535,6 +1572,26 @@ begin
   if IsCtrl('X') then PressCutToClipboard else
   if IsCtrl('Y') then PressDeleteLine else
   if IsCtrl('Z') then PressUndo else
+  if IsCtrl('0') then PressGoto(lm0) else
+  if IsCtrl('1') then PressGoto(lm1) else
+  if IsCtrl('2') then PressGoto(lm2) else
+  if IsCtrl('3') then PressGoto(lm3) else
+  if IsCtrl('4') then PressGoto(lm4) else
+  if IsCtrl('5') then PressGoto(lm5) else
+  if IsCtrl('6') then PressGoto(lm6) else
+  if IsCtrl('7') then PressGoto(lm7) else
+  if IsCtrl('8') then PressGoto(lm8) else
+  if IsCtrl('9') then PressGoto(lm9) else
+  if IsShiftCtrl('0') then PressSetLineMark(lm0) else
+  if IsShiftCtrl('1') then PressSetLineMark(lm1) else
+  if IsShiftCtrl('2') then PressSetLineMark(lm2) else
+  if IsShiftCtrl('3') then PressSetLineMark(lm3) else
+  if IsShiftCtrl('4') then PressSetLineMark(lm4) else
+  if IsShiftCtrl('5') then PressSetLineMark(lm5) else
+  if IsShiftCtrl('6') then PressSetLineMark(lm6) else
+  if IsShiftCtrl('7') then PressSetLineMark(lm7) else
+  if IsShiftCtrl('8') then PressSetLineMark(lm8) else
+  if IsShiftCtrl('9') then PressSetLineMark(lm9) else
   if IsShiftCtrl('Z') then PressRedo else
   begin
     inherited KeyDown(Key, Shift);
@@ -3181,7 +3238,7 @@ end;
 
 procedure TLeftBar.PaintLine(LineX: integer);
 var
-  H, X, Y, I: integer;
+  H, X, Y, I, P, W: integer;
   S: string;
   F: boolean;
   L: TLine;
@@ -3194,17 +3251,49 @@ begin
       L := FEdit.FLines[LineX] else
       L := nil;
     F := (L <> nil) and (LineX = FEdit.FCaret.FLineX);
-    I := VertLinePos;
-//  if F and not FEdit.FSelection.Selected then
-//    Canvas.Brush.Color := BC_ACTIVE else
-      Canvas.Brush.Color := FEdit.Palette.Background;
-    Canvas.FillRect(Rect(I + 1, Y, Width, Y + H));
 
+    // 1.draw line mark
+    X := 0;
+    P := Y + (H - FTextHeight) div 2;
+    if (L <> nil) and (L.FLineMark <> lmNone) then
+    begin
+      S := IntToStr(Ord(L.FLineMark) - 1);
+      W := Canvas.TextWidth(S) + 4;
+      Canvas.Brush.Color := FEdit.Palette.LineMarkBackground;
+      Canvas.Font.Color := FEdit.Palette.SelectedTextColor;
+      Canvas.FillRect(Rect(X, Y, X + W, Y + H));
+      Canvas.TextOut(2, P, S);
+      Inc(X, W);
+    end;
+
+    // 2.draw line number
+    I := VertLinePos;
     if F then
       Canvas.Brush.Color := FEdit.Palette.ActiveBackground else
-      Canvas.Brush.Color := clBtnFace;
-    Canvas.FillRect(Rect(0, Y, I, Y + H));
+      Canvas.Brush.Color := FEdit.Palette.LeftBarBackground;
+    Canvas.FillRect(Rect(X, Y, I, Y + H));
+    if L <> nil then
+      if F or ((LineX + 1) mod 10 = 0) then
+      begin
+        S := IntToStr(LineX + 1);
+        W := Canvas.TextWidth(S);
+        if F then
+          Canvas.Font.Color := FEdit.Palette.SpaceColor else
+          Canvas.Font.Color := clGray;
+        Canvas.TextOut(I - CE_LBDELTA - W, P, S);
+      end
+      else
+      begin
+        W := Canvas.TextWidth('9');
+        if (LineX + 1) mod 5 = 0 then
+          X := I - CE_LBDELTA - W else
+          X := I - CE_LBDELTA - W div 2;
+        Canvas.Pen.Color := clGray;
+        Canvas.MoveTo(X, Y + H div 2);
+        Canvas.LineTo(I - CE_LBDELTA - 1, Y + H div 2);
+      end;
 
+    // 3.draw changed bar
     if (L <> nil) and L.FChanged then
     begin
       Canvas.Pen.Color := FEdit.Palette.ChangedBackground;
@@ -3216,31 +3305,14 @@ begin
       Canvas.LineTo(I - 4, Y + H);
     end;
 
+    // 4.draw vertical line
     Canvas.Pen.Color := clGray;
     Canvas.MoveTo(I, Y);
     Canvas.LineTo(I, Y + H);
 
-    if L <> nil then
-      if F or ((LineX + 1) mod 10 = 0) then
-      begin
-        S := IntToStr(LineX + 1);
-        X := I - CE_LBDELTA - Canvas.TextWidth(S);
-        if F then
-          Canvas.Font.Color := FEdit.Palette.SpaceColor else
-          Canvas.Font.Color := clGray;
-        Canvas.TextOut(X, Y + (H - FTextHeight) div 2, S);
-      end
-      else
-      begin
-        Y := Y + H div 2;
-        H := Max(2, Canvas.TextWidth('9') div 4);
-        if (LineX + 1) mod 5 = 0 then
-          X := I - CE_LBDELTA - H * 4 else
-          X := I - CE_LBDELTA - H * 2;
-        Canvas.Pen.Color := clGray;
-        Canvas.MoveTo(X, Y);
-        Canvas.LineTo(I - CE_LBDELTA - 1, Y);
-      end;
+    // 5.clear reserved right area
+    Canvas.Brush.Color := FEdit.Palette.Background;
+    Canvas.FillRect(Rect(I + 1, Y, Width, Y + H));
   end;
 end;
 
@@ -3480,6 +3552,28 @@ end;
 function TLine.GetHeight: integer;
 begin
   Result := Editor.FLineHeight;
+end;
+
+procedure TLine.SetLineMark(AValue: TLineMark);
+var
+  I: integer;
+  L: TLine;
+begin
+  if FLineMark <> AValue then
+  begin
+    FLineMark := AValue;
+    if FLineMark <> lmNone then
+      for I := 0 to FList.Count - 1 do
+      begin
+        L := FList[I];
+        if (L <> Self) and (L.FLineMark = FLineMark) then
+        begin
+          L.FLineMark := lmNone;
+          FList.FEdit.FLeftBar.PaintLine(I);
+        end;
+      end;
+    FList.FEdit.FLeftBar.PaintLine(FIndex);
+  end;
 end;
 
 function TLine.GetPriorToken: TToken;
@@ -3894,6 +3988,19 @@ begin
         Inc(Result);
 end;
 
+function TLineList.FindByMark(AMark: TLineMark): TLine;
+var
+  I: integer;
+begin
+  if AMark <> lmNone then
+    for I := 0 to Count - 1 do
+    begin
+      Result := GetItem(I);
+      if Result.FLineMark = AMark then Exit;
+    end;
+  Result := nil;
+end;
+
 procedure TLineList.Delete(Index: integer);
 var
   L: TLine;
@@ -4185,10 +4292,12 @@ begin
   FBackground         := clWindow;
   FSelectedTextColor  := clWhite;
   FSelectedBackground := $694D00;
+  FLeftBarBackground  := clBtnFace;
   FChangedBackground  := clLime;
   FActiveBackground   := clSkyBlue;
   FCaretColor         := FTextColor;
   FLine80Color        := clGray;
+  FLineMarkBackground := $437E07;
   { token color }
   FUnknownColor       := clRed;
   FKeywordColor       := clNavy;

@@ -9,7 +9,7 @@ object MainForm: TMainForm
   Menu = MainMenu
   OnCreate = FormCreate
   Position = poDesktopCenter
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.6.2.0'
   object EditPanel: TPanel
     Left = 0
     Height = 458
@@ -18,6 +18,8 @@ object MainForm: TMainForm
     Align = alClient
     BevelOuter = bvNone
     BorderStyle = bsSingle
+    Color = clWindow
+    ParentColor = False
     TabOrder = 0
   end
   object StatusBar: TStatusBar
