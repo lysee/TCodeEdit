@@ -1504,9 +1504,10 @@ var
   L: TLine;
 begin
   L := FLines.FindByMark(AMark);
-  if (L <> nil) and (L <> FCaret.Line) then
+  if L <> nil then
   begin
-    FCaret.MoveToHead(L);
+    if L <> FCaret.Line then
+      FCaret.MoveToHead(L);
     FCaret.MakeVisible;
   end;
 end;
@@ -1550,7 +1551,6 @@ procedure TCodeEdit.KeyDown(var Key: Word; Shift: TShiftState);
   end;
 
 begin
-  TForm(Parent.Parent).Caption := IntToStr(Key);
   EnsureNotEmpty;
   FCaret.FKeyDown := true;
   FSelection.FSelecting := false;
