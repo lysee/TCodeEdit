@@ -361,18 +361,25 @@ type
   TContextMenu = class(TPopupMenu)
   private
     FEdit: TCodeEdit;
+    FLine: TLine;
     FUndo: TMenuItem;
     FRedo: TMenuItem;
     FCut: TMenuItem;
     FCopy: TMenuItem;
     FPaste: TMenuItem;
     FSelectAll: TMenuItem;
+    FGotoMark: TMenuItem;
+    FToggleMark: TMenuItem;
+    FGotoMenus: array[lm0..lm9] of TMenuItem;
+    FToggleMenus: array[lm0..lm9] of TMenuItem;
   protected
     procedure UndoClick(Sender: TObject);
     procedure RedoClick(Sender: TObject);
     procedure CutClick(Sender: TObject);
     procedure CopyClick(Sender: TObject);
     procedure PasteClick(Sender: TObject);
+    procedure GotoMark(Sender: TObject);
+    procedure ToggleMark(Sender: TObject);
     procedure SelectAllClick(Sender: TObject);
   public
     constructor Create(AOwner: TComponent);override;
@@ -380,6 +387,8 @@ type
     procedure UpdateChildMenus;
     function AddChild(const ACaption: string): TMenuItem;overload;
     function AddChild(const ACaption, ShortCut: string): TMenuItem;overload;
+    function AddChild(Root: TMenuItem; const ACaption: string): TMenuItem;overload;
+    function AddChild(Root: TMenuItem; const ACaption, ShortCut: string): TMenuItem;overload;
   end;
 
   { TLeftBar }
@@ -460,6 +469,7 @@ type
     function Selected(TextX: integer): boolean;overload;
     function Selected: boolean;overload;
     function EndPos: integer;
+    procedure ToggleLineMark(AMark: TLineMark);
     property Text: TCodeString read FText write SetText;
     property Left: integer read GetLeft;
     property Top: integer read GetTop;
@@ -1487,16 +1497,9 @@ begin
 end;
 
 procedure TCodeEdit.PressSetLineMark(AMark: TLineMark);
-var
-  L: TLine;
 begin
   if FCaret.Active then
-  begin
-    L := FCaret.Line;
-    if L.FLineMark = AMark then
-      L.SetLineMark(lmNone) else
-      L.SetLineMark(AMark);
-  end;
+    FCaret.Line.ToggleLineMark(AMark);
 end;
 
 procedure TCodeEdit.PressGoto(AMark: TLineMark);
@@ -3116,12 +3119,28 @@ begin
   Result.ShortCut := StrToShortCut(ShortCut);
 end;
 
+function TContextMenu.AddChild(Root: TMenuItem; const ACaption: string): TMenuItem;
+begin
+  Result := TMenuItem.Create(Self);
+  Result.Caption := ACaption;
+  Root.Add(Result);
+end;
+
+function TContextMenu.AddChild(Root: TMenuItem; const ACaption, ShortCut: string): TMenuItem;
+begin
+  Result := AddChild(Root, ACaption);
+  Result.ShortCut := StrToShortCut(ShortCut);
+end;
+
 procedure TContextMenu.CopyClick(Sender: TObject);
 begin
   FEdit.FSelection.CopyToClipboard;
 end;
 
 constructor TContextMenu.Create(AOwner: TComponent);
+var
+  I: TLineMark;
+  X: string;
 begin
   inherited;
   FEdit := AOwner as TCodeEdit;
@@ -3137,6 +3156,19 @@ begin
   FPaste := AddChild('&Paste', 'CTRL-V');
   FPaste.OnClick := {$IFDEF FPC}@{$ENDIF}PasteClick;
   AddChild('-');
+  FGotoMark := AddChild('&Goto Linemark');
+  FToggleMark := AddChild('&Toggle Linemark');
+  for I := lm0 to lm9 do
+  begin
+    X := IntToStr(Ord(I) - 1);
+    FGotoMenus[I] := AddChild(FGotoMark, 'Linemark &' + X, 'CTRL-' + X);
+    FGotoMenus[I].OnClick := {$IFDEF FPC}@{$ENDIF}GotoMark;
+    FGotoMenus[I].Tag := Ord(I);
+    FToggleMenus[I] := AddChild(FToggleMark, 'Linemark &' + X, 'SHIFT-CTRL-' + X);
+    FToggleMenus[I].OnClick := {$IFDEF FPC}@{$ENDIF}ToggleMark;
+    FToggleMenus[I].Tag := Ord(I);
+  end;
+  AddChild('-');
   FSelectAll := AddChild('Select &All', 'CTRL-A');
   FSelectAll.OnClick := {$IFDEF FPC}@{$ENDIF}SelectAllClick;
 end;
@@ -3147,12 +3179,37 @@ begin
 end;
 
 procedure TContextMenu.UpdateChildMenus;
+var
+  I: TLineMark;
+  N: integer;
+  L: TLine;
 begin
   FUndo.Enabled := not FEdit.FReadonly and (FEdit.FUndos.FLast <> nil);
   FRedo.Enabled := not FEdit.FReadonly and (FEdit.FRedos.FLast <> nil);
   FCut.Enabled := not FEdit.FReadonly and FEdit.FSelection.Selected;
   FCopy.Enabled := FEdit.FSelection.Selected;
   FPaste.Enabled := not FEdit.FReadonly and FEdit.FCaret.Active and HasTextFormat;
+  N := 0;
+  for I := lm0 to lm9 do
+  begin
+    L := FEdit.FLines.FindByMark(I);
+    if L <> nil then
+    begin
+      FGotoMenus[I].Caption := Format('Linemark& %d:%d', [Ord(I) - 1, L.FIndex + 1]);
+      FToggleMenus[I].Caption := FGotoMenus[I].Caption;
+      FGotoMenus[I].Enabled := true;
+      FGotoMenus[I].Visible := true;
+      Inc(N);
+    end
+    else
+    begin
+      FToggleMenus[I].Caption := Format('Linemark& %d', [Ord(I) - 1]);
+      FGotoMenus[I].Enabled := false;
+      FGotoMenus[I].Visible := false;
+    end;
+  end;
+  FGotoMark.Enabled := (N > 0);
+  FToggleMark.Enabled := (FLine <> nil);
 end;
 
 procedure TContextMenu.PasteClick(Sender: TObject);
@@ -3160,10 +3217,21 @@ begin
   FEdit.FSelection.PasteFromClipboard;
 end;
 
+procedure TContextMenu.GotoMark(Sender: TObject);
+begin
+  FEdit.PressGoto(TLineMark(TMenuItem(Sender).Tag));
+end;
+
+procedure TContextMenu.ToggleMark(Sender: TObject);
+begin
+  FLine.ToggleLineMark(TLineMark(TMenuItem(Sender).Tag));
+end;
+
 procedure TContextMenu.Popup(X, Y: Integer);
 var
   P: TPoint;
 begin
+  FLine := FEdit.GetLineAt(Y);
   UpdateChildMenus;
   P := FEdit.ClientToScreen(Point(X, Y));
   inherited Popup(P.X, P.Y);
@@ -3429,6 +3497,13 @@ end;
 function TLine.EndPos: integer;
 begin
   Result := Length(FText) + 1;
+end;
+
+procedure TLine.ToggleLineMark(AMark: TLineMark);
+begin
+  if FLineMark = AMark then
+    SetLineMark(lmNone) else
+    SetLineMark(AMark);
 end;
 
 procedure TLine.EndUpdate;
