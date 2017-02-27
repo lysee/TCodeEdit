@@ -3,7 +3,7 @@
  ============
  Implements the liteweight and syntax hilighted UNICODE editor: TCodeEdit.
  Create by Li Yunjie<718956073@qq.com> on Jan 26th, 2017.
- Last modified on Feb 12th, 2017.
+ Last modified on Feb 27th, 2017.
  Hosted at https://github.com/lysee/TCodeEdit.git.
  Released on Feb 11th, 2017 under the MIT license:
  =================================================
@@ -42,7 +42,7 @@ uses
 
 const
 
-  CE_VERSION    = '0.6.0';
+  CE_VERSION    = '0.7.0';
   CE_FONTNAME   = 'Courier New';
   CE_FONTSIZE   = 10;
   CE_MINTABSIZE = 2;
@@ -528,6 +528,7 @@ type
     function FirstChanged: integer;
     function Pack: integer;
     function FindByMark(AMark: TLineMark): TLine;
+    procedure ClearLineMark;
     property Count: integer read GetCount;
     property Items[Index: integer]: TLine read GetItem;default;
     property Text: TCodeString read GetText write SetText;
@@ -4076,6 +4077,14 @@ begin
   Result := nil;
 end;
 
+procedure TLineList.ClearLineMark;
+var
+  I: integer;
+begin
+  for I := 0 to Count - 1 do
+    GetItem(I).SetLineMark(lmNone);
+end;
+
 procedure TLineList.Delete(Index: integer);
 var
   L: TLine;
@@ -4185,6 +4194,7 @@ begin
     if Count > 0 then
     begin
       First.SetText('');
+      First.SetLineMark(lmNone);
       Delete(1, Count - 1);
     end
     else Add;
